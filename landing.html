@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=9" />
+	<meta name="viewport" content="width=768,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+	<title>Autodesk: Let's Talk Cloud</title>
+	<link rel="stylesheet" media="all" href="css/shadowbox.css"/>
+	<link rel="stylesheet" media="all" href="fonts/fonts.css"/>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script type="text/javascript" src="scripts/jquery.scrollTo.js"></script>
+	<script type="text/javascript" src="scripts/shadowbox.js"></script>
+	<!--[if lt IE 8]> 
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('.wrapper').hide();
+				$('.ie').show();
+			});
+		</script>
+ 	<![endif]-->
+
+	<script type="text/javascript">
+ 		var appleTroubs = false;
+		jQuery(document).ready(function($) {
+			if(navigator.platform == 'iPad' || navigator.platform == 'iPhone' || navigator.platform == 'iPod') {
+				appleTroubs = true;
+				$('.sticky-nav').removeClass('fixed');
+				$('#infographic-menu').removeClass('help_fixed');
+				$('#infographic-menu').addClass('absolute_a');
+				$('#infographic-menu2').show();
+				//$('.return-sub').show();
+			};
+ 
+		});
+
+		$(function(){
+			//$(window)._scrollable();					// should not be necessary, keep just in case
+
+			// height variables
+			var reflexPoint = 2774;						// old lock for sticky nav
+			var scrollPoint=2667;						// old slot for sticky nav
+			var heightS = [2831,2383,1931,3209,1201];	// < based on background image heights
+
+			// sliding info menu
+			$('#infographic-menu img').css('cursor','pointer').toggle(function() {
+				$(this).parent().parent().stop().animate({ 		right: 0 		}, 500); 	this.src = "images/modal-close.png";
+			}, function() {
+				$(this).parent().parent().stop().animate({ 		right: -347 	}, 500); 	this.src = "images/modal-open.png";
+			});
+			$('#infographic-menu2 img').css('cursor','pointer').toggle(function() {
+				$(this).parent().parent().stop().animate({ 		right: 0 		}, 500); 	this.src = "images/modal-close.png";
+			}, function() {
+				$(this).parent().parent().stop().animate({ 		right: -347 	}, 500); 	this.src = "images/modal-open.png";
+			});
+
+			function showIt(q) { 	q.parent().animate({ 	right: 0 	}); 	}	// is this being used anywhere?
+
+			
+			//footer return switch
+			$('.footer img').click(function() { 		$(window).scrollTo(0,600); 			});
+
+
+			// where am i? lock menu?		//currently deprecated
+			function checkPos(y) {
+				if(y<reflexPoint) {
+						$('.sticky-nav').removeClass('fixed');
+						
+				} else {
+						$('.sticky-nav').addClass('fixed');
+						
+				}
+			};
+
+			// as you scroll, check position
+			$(window).scroll(function(){
+				if(appleTroubs!=true) {
+					var y = $(window).scrollTop();
+					checkPos(y);
+				}
+			});
+
+			// zero stage for click-for-content
+			$(".fram").hide();
+
+			// flip stage on sticky nav click
+			$('.sticky-nav li a').click(function(event) {
+    			event.preventDefault();
+    			$(".sticky-nav-grey").removeClass("sticky-nav-grey").addClass("sticky-nav-green");
+    			$(this).removeClass('sticky-nav-green').addClass('sticky-nav-grey');
+    			var hook = $(this).parent().attr('id');
+    			hook = hook.substring(3);
+    			var latch = parseInt(hook.substring(1))-1;
+    			$('#content-stor > :not(#'+hook+'_hype_container .fram)').hide();
+    			$('#content-stor, #'+hook+'_hype_container').show();
+    			$("#landing_hype_container").css('height',2774+heightS[latch]+'px');
+    			$(window).scrollTo(scrollPoint, 1200, {'axis':'y'});
+				if(appleTroubs==true) {
+					$('.return-sub').show();
+					$('.return-sub a').css('background-image', 'url("images/return-sub-'+hook+'.png")');
+					//$('.return-sub').css('top', 2774+heightS[latch]-54+'px');
+				}
+    		});
+
+			$('.help_map a').click(function(event) {
+				event.preventDefault()	
+
+				if($(this).parent().attr('class')!="map-00") {
+					var hook = $(this).parent().attr('class');
+	    			hook = hook.substring(3);
+	    			$(".sticky-nav-grey").removeClass("sticky-nav-grey").addClass("sticky-nav-green");
+	    			$('#sc-'+hook+' a').removeClass("sticky-nav-green").addClass("sticky-nav-grey");
+	    			var latch = parseInt(hook.substring(1))-1;
+	    			$('#content-stor > :not(#'+hook+'_hype_container .fram)').hide();
+	    			$('#content-stor, #'+hook+'_hype_container').show();
+	    			$("#landing_hype_container").css('height',2774+heightS[latch]+'px');
+	    			$(window).scrollTo(scrollPoint, 1200, {'axis':'y'});
+					if(appleTroubs==true) {
+						$('.return-sub').show();
+						$('.return-sub a').css('background-image', 'url("images/return-sub-'+hook+'.png")');
+						//$('.return-sub').css('top', 2774+heightS[latch]-54+'px');
+					}
+    			}
+			});
+			$(".map-00").click(function(event) {
+				$(window).scrollTo(0, 800, {'axis':'y'});
+			});
+			$('.return-sub a').click(function(event) {
+				$(window).scrollTo(scrollPoint, 800, {'axis':'y'});
+			});
+		});
+
+
+		
+	</script>
+	<style>
+		body {
+			background-color: #000000;	
+			margin: 0px;
+			position:relative;
+			font-family: Arial, sans-serif;
+		}
+
+		.footer	{
+			display:block; width:768px; height:48px;/*78px*/
+			position:relative; bottom:0;/**/background:#000;	z-index:998;
+		}
+		.footer img {
+			position:relative;
+			left:12px;
+			top:15px;
+			cursor:pointer;
+			width:97px;
+			height:17px;
+		}
+		.footer #copyright{
+			padding:15px;
+			float:right; 
+			color:#959595;
+			margin-right:10px;
+			font-family:Arial, sans-serif;
+			font-size:11px;
+		}
+		.sticky-nav {
+			display:block;
+			width:768px;
+			height:108px;
+			z-index:997;
+			position:relative;
+			background:#ededed;
+			-webkit-box-shadow: rgb(72, 72, 72) 2px 2px 7px -2px;
+			box-shadow: rgb(72, 72, 72) 2px 2px 7px -2px;
+			/*text-align:center;*/
+			margin-top: -1px;
+			top:2667px;
+
+		}
+		.sticky-nav.fixed {
+			position:fixed;
+			top:0;
+		}
+		.sticky-nav ul {
+			display:inline-block;margin:8px 0 0;
+			list-style:none;padding:0;
+			text-align:center;
+			margin-left: 104px;
+		}
+		.sticky-nav li {
+			display:block;width:90px;height:90px;float:left;margin:0 10px;
+		}
+		.sticky-nav li a {
+			text-decoration:none;display:inherit; width:inherit; height:inherit; -webkit-border-radius:45px; -moz-border-radius:45px; border-radius:45px;font-family:'ClaireHandRegular'; behavior: url(scripts/PIE.htc);}
+		.sticky-nav-green{
+			background:#179A9B; color:#fff; box-shadow: rgb(90, 90, 90) 2px 2px 7px; -webkit-box-shadow: rgb(90, 90, 90) 2px 2px 7px;
+		}
+		.sticky-nav-grey{
+			background:#c7c7c7; color:#179A9B; box-shadow: rgb(90, 90, 90) 2px 2px 7px; -webkit-box-shadow: rgb(90, 90, 90) 2px 2px 7px;
+		}
+
+		.sticky-nav li a span	{
+			display:block;padding-top:26px;
+		}
+		#content-stor {
+			display:block;
+			position:absolute;
+			top:2774px;
+
+		}
+	
+		#page-container 			{ display:block; margin: 0 auto 48px; width:768px; position:relative;overflow:hidden; }
+		#infographic-menu,
+		#infographic-menu2 			{ z-index:1100;  display:block;width:385px; }
+				#infographic-menu img ,
+		#infographic-menu2 img 		{ float:left;border:1px solid #ddd;border-right:0;position:absolute;top:0;left:0; }
+		#infographic-menu .content,
+		#infographic-menu2 .content 	{ display:block;width:345px;height:600px;float:right;border:1px solid #ddd; background-color:#000; }
+		#infographic-menu .content iframe,
+		#infographic-menu2 .content iframe { border:none;width:inherit;height:inherit; }
+		#infographic-menu2			{display:none;}
+		.help_fixed{position:fixed; top:25px; right:-347px;}
+		.absolute_a{position:absolute; top:25px; right:-347px;}
+		.absolute_b{position:absolute; top:2687px; right:-347px;}
+
+		#map, #map2 {
+			width:345px;
+			background-color:#000;
+			font-family: Arial, sans-serif;
+			color:#fff;
+			font-size:13px;
+			margin:0;padding:0;
+		}
+		#map a, #map2 a
+		{
+			color: #118888;font-weight:bold;
+			text-decoration:none;
+		}
+		#map ul, #map2  ul {
+			margin-top: 5px;
+			list-style:none;
+			padding:0;
+			font-size:1.1em;
+			/*margin-left:-10px;
+			line-height:16px;*/
+		}
+
+		 #map li, #map2  li {
+			/*background-image: url(images/bullet.png);
+			background-repeat: no-repeat;
+			background-position: 0 2px;
+			padding-left: 18px;*/
+			margin:0;
+			color:#8b8b8b;
+			display:block;
+			margin-bottom:19px;
+		}
+		#map, #map2 {
+			width:285px;
+			color:#fff;
+			border: 1px, #fff;
+			padding:0 30px;
+		}
+		#map p, #map2 p{
+			margin-left:0px;
+			margin-top: 18px;
+
+
+		}
+		ol.low {color:#8B8B8B; 
+			margin-left:10px;
+			font-size:14px;
+
+		}
+		.low li {
+
+			margin-bottom:8px!important;
+			
+		}
+		#map li span, #map2 li span {
+			display:block;
+		}
+		#map strong.el, #map2 strong.el {
+			color:#ffaa00;font-size:1.9em;font-weight:normal;display:block;margin-top:34px;
+		}
+		.ie{
+			background-color: #fff;
+			color:#FF0000;
+			font-size:18px;
+			font-weight:bold;
+			width:768px;
+			margin:auto;
+			padding: 20px;
+			display:none;
+			text-align:center;
+
+		}
+		.return-sub	{
+			display:none; height:53px; padding:0 40px 0 0; background:#dadada; position:absolute; z-index:999; bottom:0; right:40px;
+		}
+		.return-sub a {
+			display:block;width:171px;height:54px;
+			
+		}
+
+		
+
+	</style>
+	<script type="text/javascript">
+	Shadowbox.init({ 
+        handleOversize: "resize", 
+        onOpen: function() { 
+                if((navigator.userAgent.match(/iPhone/i))||(navigator.userAgent.match(/iPad/i))) { 
+                        $("#sb-container").css("top", $(window).scrollTop()); 
+                        $(window).bind('scroll', function() { 
+                                $("#sb-container").css("top", $(window).scrollTop()); 
+                        }); 
+                } 
+        }, 
+        onClose: function() { 
+                if((navigator.userAgent.match(/iPhone/i))||(navigator.userAgent.match(/iPad/i))) { 
+                        $(window).unbind('scroll'); 
+                } 
+        } 
+}); 
+	</script>
+	<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-27433707-1']);
+  _gaq.push(['_setDomainName', 'castersblues.com']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </head>
+  <body >
+  		<div class="ie">
+  			Sorry - due to the use of advanced features in HTML5 this website requires IE 9 or a webkit-compatible browser like <a href="http://www.mozilla.org/en-US/firefox/new/" taget="_blank">Firefox</a> or <a href="http://google.com/chrome" target="_blank">Google Chrome</a>.
+  		</div>
+	<div id="page-container">
+		
+
+	
+		<!-- copy these lines to your document: -->
+
+		<div id="landing_hype_container" style="position:relative;overflow:hidden; background-color:#ededed; width:768px;height:2774px;">
+			<script type="text/javascript" charset="utf-8" src="scripts/landing_hype_generated_script.js?99083"></script>
+			
+		<div class="sticky-nav">
+			<ul>
+				<li id="sc-01"><a class="sticky-nav-green" href="#" onClick="_gaq.push(['_trackEvent', 'Main Nav', 'Click', 'Saving Humanity']);"><span>Saving Humanity</span></a></li>
+				<li id="sc-02"><a class="sticky-nav-green" href="#" onClick="_gaq.push(['_trackEvent', 'Main Nav', 'Click', 'Breaking Records']);"><span>Breaking Records</span></a></li>
+				<li id="sc-03"><a class="sticky-nav-green" href="#" onClick="_gaq.push(['_trackEvent', 'Main Nav', 'Click', 'Inspiring Change']);"><span>Inspiring Change</span></a></li>
+				<li id="sc-04"><a class="sticky-nav-green" href="#" onClick="_gaq.push(['_trackEvent', 'Main Nav', 'Click', 'Working Anywhere']);"><span>Working Anywhere</span></a></li>
+				<li id="sc-05"><a class="sticky-nav-green" href="#" onClick="_gaq.push(['_trackEvent', 'Main Nav', 'Click', 'Being a Winner']);"><span>Being a Winner</span></a></li>
+			</ul>
+		</div>
+		<!---hidden divs-->
+		<div id="content-stor">
+		 	<div id="01_hype_container" style="position:relative;overflow:hidden;width:768px;height:2831px;" class="fram">
+				<script type="text/javascript" charset="utf-8" src="scripts/01_hype_generated_script.js?34127"></script>
+			</div>
+			<div id="02_hype_container" style="position:relative;overflow:hidden;width:768px;height:2383px;" class="fram">
+				<script type="text/javascript" charset="utf-8" src="scripts/02_hype_generated_script.js"></script>
+			</div>
+			<div id="03_hype_container" style="position:relative;overflow:hidden;width:768px;height:1931px;" class="fram">
+				<script type="text/javascript" charset="utf-8" src="scripts/03_hype_generated_script.js"></script>
+			</div>
+			<div id="04_hype_container" style="position:relative;overflow:hidden;width:768px;height:3209px;" class="fram">
+				<script type="text/javascript" charset="utf-8" src="scripts/04_hype_generated_script.js"></script>
+			</div>
+			<div id="05_hype_container" style="position:relative;overflow:hidden;width:768px;height:1201px;" class="fram">
+				<script type="text/javascript" charset="utf-8" src="scripts/05_hype_generated_script.js"></script>
+			</div>
+		</div>
+		<div class="return-sub"><a></a>		
+		</div>
+				<!-- end of hidden divs-->	
+		</div>
+		
+		
+		
+		<!-- end copy -->
+
+		
+
+		<div class="footer">
+			<img src="images/footer-logo.png" alt="" />
+			<div id="copyright">© Copyright 2012 Autodesk, Inc. All rights reserved.</div>
+		</div>
+
+	
+		<div id="infographic-menu" class="help_fixed"><div class="lane">
+				<img id="modal-button" src="images/modal-open.png" border="0" class="modal-button" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Open Help Menu']);"  /> 
+				<div class="content">
+
+					<div id="map" class="help_map">
+						<p><strong class="el">Let&rsquo;s Talk:</strong></p>
+						<ul>
+						<li class="map-00"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'What does the cloud mean to you']);">What does the cloud mean to you? ></a><span>(Autodesk<sup style="font-size:50%">&reg;</sup> 360)</span></li>
+						<li class="mp-01"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Energy Analysis']);">Energy Analysis ></a><span>(Saving Humanity)</span></li>
+						<li class="mp-02"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Rendering']);">Rendering ></a><span>(Breaking Records)</span></li>
+						<li class="mp-03"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Design Optimization']);">Design Optimization ></a><span>(Inspiring Change)</span></li>
+						<li class="mp-04"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Mobility and Storage']);">Mobility and Storage ></a><span>(Working Anywhere)</span></li>
+						<li class="mp-05"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav', 'Click', 'Subscription Advantage']);">Subscription Advantage ></a><span>(Being a Winner)</span></li>
+						</ul>
+
+						<p><strong class="el">Lost?</strong></p>
+					</div>
+					<div>
+						<ol class="low">
+						<li>Select a green circle.</li>
+						<li>Read the response in the box that turns gold.</li>
+						<li>Follow the arrows and select the next green circle.</li>
+						</ol>
+
+					</div>
+
+				</div>
+		</div></div>
+		<div id="infographic-menu2" class="absolute_b"><div class="lane">
+				<img id="modal-button" src="images/modal-open.png" border="0" class="modal-button" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Open Help Menu']);" /> 
+				<div class="content">
+
+					<div id="map2" class="help_map">
+						<p><strong class="el">Let&rsquo;s Talk:</strong></p>
+						<ul>
+						<li class="map-00"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'What does the cloud mean to you']);">What does the cloud mean to you? ></a><span>(Autodesk&reg; 360)</span></li>
+						<li class="mp-01"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Energy Analysis']);">Energy Analysis ></a><span>(Saving Humanity)</span></li>
+						<li class="mp-02"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Rendering']);">Rendering ></a><span>(Breaking Records)</span></li>
+						<li class="mp-03"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Design Optimization']);">Design Optimization ></a><span>(Inspiring Change)</span></li>
+						<li class="mp-04"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Mobility and Storage']);">Mobility and Storage ></a><span>(Working Anywhere)</span></li>
+						<li class="mp-05"><a href="#" onClick="_gaq.push(['_trackEvent', 'Help Nav (iPad)', 'Click', 'Subscription Advantage']);">Subscription Advantage ></a><span>(Being a Winner)</span></li>
+						</ul>
+
+						<p><strong class="el">Lost?</strong></p>
+					</div>
+					<div>
+						<ol class="low">
+						<li>Select a green circle.</li>
+						<li>Read the response in the box that turns gold.</li>
+						<li>Follow the arrows and select the next green circle.</li>
+						</ol>
+
+					</div>
+
+				</div>
+		</div></div>
+	</div>
+  </body>
+</html>

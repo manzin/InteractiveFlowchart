@@ -1,0 +1,30 @@
+During the February 2012 and the first half of March 2012 I worked for local Portland Creative Agency on an interactive infographic (it's really a flow chart).
+
+The flowchart needed to be cross-browser compatible and work on the Ipad, so no flash ;)
+Since we were using Hype by Tumult to handle animations and keep everything HTML5 and browser compatible, we honestly thought it wouldn't be a problem. What we failed to account for were a number of things. 
+	1. There shear number of interactions mostly repetitive which until I got comfortable with Hype took and absurd amount of time and then became a breeze and faster than coding for me.
+	2. Continual Copy edits and the need for clear communication among the various team components: development, QA, Project Management, and the Account Rep/Client.
+	3. The whole design was centered around making it fit on an ipad perfectly when in portrait mode. We never thought that some of the most basic jquery plugin and web standards might not work:
+		a. Fixed positioning when combined with these two and .scrollto and/or .animate
+		b .Shadowbox
+These three issues cost us near 40 hours to try and fix and eventually develop workarounds for.
+I worked on this project with SR Front End developer Peter Cruzat, who taught me so much and these are the fixes I came up with.
+The client wanted a nav bar and we gave them the Sticky-nav which had relative position until the screen scroll passed the reflex point and then it took on a fixed positioning class state. Peter coded the sticky-nav and it worked like a charm on all browsers. After I added the pie.htc css3 fix to the css, the circles stopped showing up like squares on IE<9. 
+
+However the problem arose that because we were using .scrollto to transition between points on the flowchart whenever the plugin initiated. If you taped a sub-flowchart circle then decided you wanted to tap a point on the sticky-nav, the nav bar while having a higher z-index would inevitably no longer be tap/touchable on the ipad. Though iOS 5 supposedly brought in support for fixed positioning they didn't do a perfect job and something in the browser, perhaps iOS Safari's own autoscroll, created serious grief. Elements in the flowchart were no longer even visible in the window to receiving the tap instead of the nav circles on the sticky nav. We tried a number of solutions. 
+
+The first was Peter's hard z-index set. I tried giving a specific z-index to everything in the header, in-line and even by inserting it with JavaScript everytime a flowchart object was clicked. All attempts failed. 
+
+Next we noticed that if you did initiate scroll to but manually scrolled the screen after the problem disappeared. So I tried to simulate this action with a simple JavaScript function that moved the position of the window up and down after each scroll to in such a way you wouldn't even notice. 
+
+Again nata. So I read and read and it turned out this wasn't a problem encountered very often. It required a unique set of variables for the error to show itself, namely an ipad, fixed positioning, .animate or .scrollto and active element within the fixed object.
+I'm not a senior developer with years of experience nor have I developed much for the Ipad in HTML5. So eventually realizing we were wasting time I proposed a simple solution don't fix the sticky-nav on the ipad. 
+	Go ahead and take a look if you have an Ipad. You can view an example at htttp://sandbox.castersblues.com/infographic/ 
+
+We used the navigator.userAgent.match to determine the device and then switched the rules if it was one of those nice little iOS devices. We served up an absolutely positioned sitcky-nav bar to iOS. At the footer of each sub-flowchart a return to nav reflexpoint button that also indicates which flowchart they are on enables the user to jump up to the sticky-nav.
+
+We ran into the same problem with the pop-out help menu even though instead of .scrollto it was being animated with the .animate jquery function. In this instance we once again used absolute positioning, navigator.userAgent.match. We created a hidden div replica of the menu that would sit on top of the sticky-nav when the user got to the lower sub flow-charts if the user was using an Ipad. 
+
+As for the second problem, shadowbox, well on ipads and iphones there's a certain way you're suppose to initialize shadowbox. Early on in the project I placed a fix for this. It worked I knew it worked so when it stopped I was stymied. Then I remembered that Peter had begun cleaning up some of the code organizing it all under a single pair of script tags. Turns out moving that script inside all the others is what threw everything off. It was now being called a variable function "$function". 
+
+The solution however wasn't suppose be initiated that way via jquery. So I moved it back out and finally everything appeared to be working most of the time on that precious little machine from hell Jobs gave us. Still I love making stuff for it because I feel like I totally leveled up in the process.
